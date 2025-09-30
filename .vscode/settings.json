@@ -1,0 +1,15 @@
+{
+    "files.associations": {
+        "string": "c",
+        "unordered_map": "c",
+        "vector": "c",
+        "optional": "c",
+        "istream": "c",
+        "ostream": "c",
+        "streambuf": "c",
+        "string_view": "c",
+        "functional": "c",
+        "tuple": "c",
+        "type_traits": "c"
+    }
+}
