@@ -29,8 +29,10 @@ static Node * createNode(ListType value)
 };
 
 
-static Node * getNode(LinkedList * list, uint index)
+Node * getNode(LinkedList * list, uint index)
 {
+    if(index < 0 || index > list->size) return NULL;
+
     Node * current = list->head;
 
     for(int i = 0  ; i < index ; ++i)
@@ -39,6 +41,12 @@ static Node * getNode(LinkedList * list, uint index)
     }
 
     return current;
+}
+
+ListType * getNodeValue(LinkedList * list, uint index)
+{
+    Node * node = getNode(list, index);
+    return &(node->value);
 }
 
 void pushFront(LinkedList * list, ListType value)
@@ -80,6 +88,8 @@ void pushBack(LinkedList * list, ListType value)
 
 ListType popFront(LinkedList * list)
 {
+    if(list->head == NULL) return;
+
     Node * current = list->head;
     list->head = current->next;
 
@@ -92,6 +102,8 @@ ListType popFront(LinkedList * list)
 
 ListType pop(LinkedList * list, uint index)
 {
+    if(list->head == NULL) return;
+
     if(index < 0)
     {
         printf("Index out of bounds!");
@@ -128,3 +140,15 @@ void destroy(LinkedList * list)
     }
 }
 
+void print(LinkedList * list)
+{
+    Node * current = list->head;
+
+    for(int i = 0 ; i < list->size ; ++i)
+    {
+        printf("%d ", current->value);
+        current = current->next;
+    }
+
+    printf("\n");
+}

@@ -29,7 +29,7 @@ static Node * createNode(ListType value)
 
 void pushFront(LinkedList * list, ListType value)
 {
-    Node * newNode = createNode(list, value);
+    Node * newNode = createNode(value);
 
     newNode->next = list->head;
     //newNode->prev = NULL;
@@ -41,7 +41,7 @@ void pushFront(LinkedList * list, ListType value)
 
 void pushBack(LinkedList * list, ListType value)
 {
-    Node * newNode = createNode(list, value);
+    Node * newNode = createNode(value);
 
     newNode->prev = list->tail;
     //newNode->next = NULL;
@@ -62,8 +62,6 @@ void push(LinkedList * list, uint index, ListType value)
     Node * newNode = createNode(value);
     
 }
-
-
 
 
 ListType popBack(LinkedList * list);

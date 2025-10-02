@@ -31,8 +31,8 @@ ListType popBack(LinkedList * list);
 ListType popFront(LinkedList * list);
 ListType pop(LinkedList * list, uint index);
 
-void traverseForward(LinkedList * list);
-void traverseReverse(LinkedList * list);
+void printForward(LinkedList * list);
+void printReverse(LinkedList * list);
 
 void destroy(LinkedList * list);
 

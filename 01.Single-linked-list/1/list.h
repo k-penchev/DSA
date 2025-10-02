@@ -8,7 +8,6 @@ struct Node
 {
     ListType value;
     struct Node * next;
-    //struct Node * prev;
 };
 
 struct LinkedList
@@ -22,6 +21,9 @@ typedef struct LinkedList LinkedList;
 
 LinkedList init();
 
+Node * getNode(LinkedList * list, uint index);
+ListType * getNodeValue(LinkedList * list, uint index);
+
 void pushBack(LinkedList * list, ListType value);
 void pushFront(LinkedList * list, ListType value);
 void push(LinkedList * list, uint index, ListType value);
@@ -31,5 +33,6 @@ ListType popFront(LinkedList * list);
 ListType pop(LinkedList * list, uint index);
 
 void destroy(LinkedList * list);
+void print(LinkedList * list);
 
 #endif

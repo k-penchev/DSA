@@ -27,7 +27,7 @@ void swap(int * a, int * b)
 
 void sort(int * arr, int size)
 {
-    for(int i = 1; i < size; ++i)
+    for(int i = 0; i < size; ++i)
     {
         int key = arr[i];
         int idx = binary(arr, i, key);
