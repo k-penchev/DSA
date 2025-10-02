@@ -3,7 +3,7 @@
 
 #define N 5
 
-//arr[l ... m] & arr[m + 1 ... r]
+//arr[l ... m] <---> arr[m + 1 ... r]
 void merge(int * arr, int l, int m, int r)
 {
     int l_size = m - l + 1;

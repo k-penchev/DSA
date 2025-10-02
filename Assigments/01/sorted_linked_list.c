@@ -85,8 +85,9 @@ int main()
     pushBack(&list, 3);
     pushBack(&list, 2);
 
-    //sort(&list, 0); // -> swap values
-    sort(&list, 1); // -> swap nodes
+    //0 -> swap values, 1 -> swap nodes
+    sort(&list, 0); //0/1
+
     print(&list);
     destroy(&list);
 
