@@ -18,8 +18,8 @@ static Node * createNode(ListType value)
 
     if(newNode == NULL)
     {
-        printf("Error allocating memory!");
-        exit(0);
+        printf("Error allocating memory!\n");
+        exit(EXIT_FAILURE);
     }
 
     newNode->value = value;
@@ -28,10 +28,9 @@ static Node * createNode(ListType value)
     return newNode;
 };
 
-
 Node * getNode(LinkedList * list, uint index)
 {
-    if(index < 0 || index > list->size) return NULL;
+    if(index > list->size) return NULL;
 
     Node * current = list->head;
 
@@ -46,6 +45,11 @@ Node * getNode(LinkedList * list, uint index)
 ListType * getNodeValue(LinkedList * list, uint index)
 {
     Node * node = getNode(list, index);
+    if(node == NULL)
+    {
+        printf("Index out of bounds!\n");
+        exit(EXIT_FAILURE);
+    }
     return &(node->value);
 }
 
@@ -58,13 +62,12 @@ void pushFront(LinkedList * list, ListType value)
     list->size++;
 };
 
-
 void push(LinkedList * list, uint index, ListType value)
 {
     if(index > list->size)
     {
-        printf("Index out of bounds!");
-        exit(0);
+        printf("Index out of bounds!\n");
+        exit(EXIT_FAILURE);
     }
 
     if(index == 0)
@@ -75,7 +78,7 @@ void push(LinkedList * list, uint index, ListType value)
 
     Node * prev = getNode(list, index - 1);
     Node * newNode = createNode(value);
-    
+
     newNode->next = prev->next;
     prev->next = newNode;
     list->size++;
@@ -88,12 +91,16 @@ void pushBack(LinkedList * list, ListType value)
 
 ListType popFront(LinkedList * list)
 {
-    if(list->head == NULL) return;
+    if(list->head == NULL)
+    {
+        printf("List is empty!\n");
+        exit(EXIT_FAILURE);
+    }
 
     Node * current = list->head;
     list->head = current->next;
 
-    ListType result = current->value;  
+    ListType result = current->value;
     free(current);
 
     list->size--;
@@ -102,12 +109,16 @@ ListType popFront(LinkedList * list)
 
 ListType pop(LinkedList * list, uint index)
 {
-    if(list->head == NULL) return;
-
-    if(index < 0)
+    if(list->head == NULL)
     {
-        printf("Index out of bounds!");
-        exit(0);
+        printf("List is empty!\n");
+        exit(EXIT_FAILURE);
+    }
+
+    if(index >= list->size)
+    {
+        printf("Index out of bounds!\n");
+        exit(EXIT_FAILURE);
     }
 
     if(index == 0)
@@ -129,6 +140,11 @@ ListType pop(LinkedList * list, uint index)
 
 ListType popBack(LinkedList * list)
 {
+    if(list->size == 0)
+    {
+        printf("List is empty!\n");
+        exit(EXIT_FAILURE);
+    }
     return pop(list, list->size - 1);
 }
 

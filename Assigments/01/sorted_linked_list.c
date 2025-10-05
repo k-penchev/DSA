@@ -1,18 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "../../01.Single-linked-list/1/list.h"
+#include "../../01.Single-linked-list/01/list.h"
 
 void swap_nodes(LinkedList * list, int x, int y)
 {
-    //x < y (x = y - 1) / x_node > y_node
+    //x and y are consecutive
 
-    if (x == 0)
+    if(x == 0)
     {
         Node * x_node = list->head;
         Node * y_node = x_node ? x_node->next : NULL;
 
-        if (x_node == NULL || y_node == NULL) return;
+        if(x_node == NULL || y_node == NULL) return;
 
         x_node->next = y_node->next;
         y_node->next = x_node;
