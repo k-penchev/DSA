@@ -1,12 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "../../01.Single-linked-list/01/list.h"
+#include "../../01.Data-structures/01.Single-linked-list/01/list.h"
 
 void swap_nodes(LinkedList * list, int x, int y)
 {
-    //x and y are consecutive
-
     if(x == 0)
     {
         Node * x_node = list->head;

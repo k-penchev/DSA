@@ -29,6 +29,7 @@
         "iterator": "c",
         "limits": "c",
         "memory": "c",
-        "random": "c"
+        "random": "c",
+        "list.h": "c"
     }
 }
