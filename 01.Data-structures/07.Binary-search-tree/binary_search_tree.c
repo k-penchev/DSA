@@ -1,10 +1,12 @@
 #include "binary_search_tree.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <assert.h>
 
 BinaryNode * createNode(BinaryNodeType value)
 {
     BinaryNode * newNode = malloc(sizeof(BinaryNode));
+    assert(newNode != NULL);
 
     newNode->value = value;
     newNode->left = NULL;
@@ -20,20 +22,21 @@ BinaryNode * findNode(BinaryNode * root, BinaryNodeType target)
         return root;
     }
 
-    if(root->value < target)
+    if(target < root->value)
     {
-        findNode(root->right, target);
+        return findNode(root->left, target);
     }
-    
-    findNode(root->left, target);
-    
-}   
+    else
+    {
+        return findNode(root->right, target);
+    }
+}
 
 BinaryNode * insertNode(BinaryNode * root, BinaryNodeType value)
 {
     if(root == NULL)
     {
-        return newNode(value);
+        return createNode(value);
     }
 
     if(value < root->value)
@@ -43,6 +46,16 @@ BinaryNode * insertNode(BinaryNode * root, BinaryNodeType value)
     else
     {
         root->right = insertNode(root->right, value);
+    }
+
+    return root;
+}
+
+static BinaryNode * findMin(BinaryNode * root)
+{
+    while(root != NULL && root->left != NULL)
+    {
+        root = root->left;
     }
 
     return root;
@@ -88,12 +101,29 @@ BinaryNode * deleteNode(BinaryNode * root, BinaryNodeType value)
         }
         else
         {
-            
+            BinaryNode * succ = findMin(root->right);
+            root->value = succ->value;
+            root->right = deleteNode(root->right, succ->value);
         }
     }
 
     return root;
 }
 
-void printBinarySearchTree(BinaryNode * root);
-void destory(BinaryNode * root);
+void printBinarySearchTree(BinaryNode * root)
+{
+    if(root == NULL) return;
+
+    printBinarySearchTree(root->left);
+    printf("%d ", root->value);
+    printBinarySearchTree(root->right);
+}
+
+void destory(BinaryNode * root)
+{
+    if(root == NULL) return;
+
+    destory(root->left);
+    destory(root->right);
+    free(root);
+}

@@ -1,10 +1,12 @@
 #include "list.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 LinkedList init()
 {
-    LinkedList list = {
+    LinkedList list =
+    {
         .head = NULL,
         .size = 0,
     };
@@ -15,13 +17,8 @@ LinkedList init()
 static Node * createNode(ListType value)
 {
     Node * newNode = malloc(sizeof(Node));
-
-    if(newNode == NULL)
-    {
-        printf("Error allocating memory!\n");
-        exit(EXIT_FAILURE);
-    }
-
+    assert(newNode != NULL);
+    
     newNode->value = value;
     newNode->next = NULL;
 
@@ -50,6 +47,7 @@ ListType * getNodeValue(LinkedList * list, uint index)
         printf("Index out of bounds!\n");
         exit(EXIT_FAILURE);
     }
+
     return &(node->value);
 }
 
@@ -145,6 +143,7 @@ ListType popBack(LinkedList * list)
         printf("List is empty!\n");
         exit(EXIT_FAILURE);
     }
+
     return pop(list, list->size - 1);
 }
 

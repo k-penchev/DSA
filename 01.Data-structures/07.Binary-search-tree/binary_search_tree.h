@@ -16,10 +16,9 @@ BinaryNode * createNode(BinaryNodeType value);
 
 BinaryNode * findNode(BinaryNode * root, BinaryNodeType target);
 BinaryNode * insertNode(BinaryNode * root, BinaryNodeType value);
-BinaryNode * deleteNode(BinaryNode * root, BinaryNode value);
+BinaryNode * deleteNode(BinaryNode * root, BinaryNodeType value);
 
 void printBinarySearchTree(BinaryNode * root);
 void destory(BinaryNode * root);
-
 
 #endif

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <assert.h>
 
 Set init()
 {
@@ -20,11 +21,13 @@ static void resize(Set * set, int new_size)
     {
         free(set->buffer);
         set->buffer = NULL;
+        set->size = 0;
         return;
     }
 
     int * tmp = realloc(set->buffer, sizeof(int) * new_size);
-    
+    assert(tmp != NULL);
+
     set->buffer = tmp;
 }
 
@@ -45,7 +48,7 @@ static int lower_bound(Set * set, int value)
     return r;
 }
 
-int find(Set * set, int value)
+bool find(Set * set, int value)
 {
     if(set->size == 0) return 0;
     
@@ -53,7 +56,7 @@ int find(Set * set, int value)
     return(index < set->size && set->buffer[index] == value);
 }
 
-void push(Set * set, int value)
+void insert(Set * set, int value)
 {
     if(find(set, value)) return;
 
@@ -70,11 +73,11 @@ void push(Set * set, int value)
     set->buffer[i] = value;
 }
 
-int is_subset(Set * a, Set * b)
+bool is_subset(Set * a, Set * b)
 {
-    for(int i = 0 ; i < b->size ; ++i)
+    for(int i = 0 ; i < a->size ; ++i)
     {
-        if(!find(a, b->buffer[i])) return 0;
+        if(!find(b, a->buffer[i])) return 0;
     }
 
     return 1;
@@ -83,15 +86,16 @@ int is_subset(Set * a, Set * b)
 Set * set_union(Set * a, Set * b)
 {
     Set * c = malloc(sizeof(Set));
+    *c = init();
 
     for(int i = 0 ; i < a->size ; ++i)
     {
-        push(c, a->buffer[i]);
+        insert(c, a->buffer[i]);
     }
 
     for(int i = 0 ; i < b->size ; ++i)
     {
-        push(c, b->buffer[i]);
+        insert(c, b->buffer[i]);
     }
 
     return c;
@@ -100,12 +104,13 @@ Set * set_union(Set * a, Set * b)
 Set * set_intersection(Set * a, Set * b)
 {
     Set * c = malloc(sizeof(Set));
+    *c = init();
 
     for(int i = 0 ; i < a->size ; ++i)
     {
         if(find(b, a->buffer[i]))
         {
-            push(c, a->buffer[i]);
+            insert(c, a->buffer[i]);
         }
     }
 
@@ -115,12 +120,13 @@ Set * set_intersection(Set * a, Set * b)
 Set * set_difference(Set * a, Set * b)
 {
     Set * c = malloc(sizeof(Set));
+    *c = init();
 
     for(int i = 0 ; i < a->size ; ++i)
     {
         if(!find(b, a->buffer[i]))
         {
-            push(c, a->buffer[i]);
+            insert(c, a->buffer[i]);
         }
     }
 

@@ -1,6 +1,8 @@
 #ifndef SET_H
 #define SET_H
 
+#include <stdbool.h>
+
 typedef unsigned int uint;
 
 struct Set
@@ -13,9 +15,9 @@ typedef struct Set Set;
 
 Set init();
 
-void push(Set * set, int value);
-int find(Set * set, int value);
-int is_subset(Set * a, Set * b);
+void insert(Set * set, int value);
+bool find(Set * set, int value);
+bool is_subset(Set * a, Set * b);
 
 Set * set_union(Set * a, Set * b);
 Set * set_intersection(Set * a, Set * b);
