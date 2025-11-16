@@ -1,29 +1,26 @@
 #ifndef SET_H
 #define SET_H
 
-#include <stdbool.h>
-
+typedef int SetType;
 typedef unsigned int uint;
 
 struct Set
 {
     uint size;
-    int * buffer;
+    uint capacity;
+    SetType * data;
 };
 
 typedef struct Set Set;
 
 Set init();
 
-void insert(Set * set, int value);
-bool find(Set * set, int value);
-bool is_subset(Set * a, Set * b);
+void insert(Set * set, SetType value);
+void erase(Set * set, SetType value);
+int contains(Set * set, SetType value);
 
-Set * set_union(Set * a, Set * b);
-Set * set_intersection(Set * a, Set * b);
-Set * set_difference(Set * a, Set * b);
-
-void print(Set * set);
+void printSet(Set * set);
+void clear(Set * set);
 void destroy(Set * set);
 
 #endif

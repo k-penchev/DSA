@@ -1,152 +1,125 @@
 #include "set.h"
 #include <stdlib.h>
-#include <stdbool.h>
 #include <stdio.h>
 #include <assert.h>
 
 Set init()
 {
-    Set new_set =
+    Set set =
     {
         .size = 0,
-        .buffer = NULL
+        .capacity = 0,
+        .data = NULL
     };
 
-    return new_set;
+    return set;
 }
 
-static void resize(Set * set, int new_size)
+static void reserve(Set * set, uint new_capacity)
 {
-    if(new_size == 0)
+    if(new_capacity == 0)
     {
-        free(set->buffer);
-        set->buffer = NULL;
+        free(set->data);
+        set->data = NULL;
+        set->capacity = 0;
         set->size = 0;
         return;
     }
 
-    int * tmp = realloc(set->buffer, sizeof(int) * new_size);
+    SetType * tmp = realloc(set->data, sizeof(SetType) * new_capacity);
     assert(tmp != NULL);
 
-    set->buffer = tmp;
+    set->data = tmp;
+    set->capacity = new_capacity;
+
+    if(set->size > set->capacity)
+    {
+        set->size = set->capacity;
+    }
 }
 
-static int lower_bound(Set * set, int value)
+static int lower_bound(Set * set, SetType value)
 {
-    if(set->size == 0) return 0;
+    int l = -1;
+    int r = set->size;
 
-    int l = -1, r = set->size;
-    
-    while(l + 1 < r)
+    while(l < r)
     {
         int m = (l + r) / 2;
 
-        if(set->buffer[m] >= value) r = m;
+        if(set->data[m] >= value) r = m;
         else l = m;
     }
 
     return r;
 }
 
-bool find(Set * set, int value)
+int contains(Set * set, SetType value)
 {
     if(set->size == 0) return 0;
-    
-    int index = lower_bound(set, value);
-    return(index < set->size && set->buffer[index] == value);
+
+    int pos = lower_bound(set, value);
+
+    return (pos < set->size && set->data[pos] == value);
 }
 
-void insert(Set * set, int value)
+void insert(Set * set, SetType value)
 {
-    if(find(set, value)) return;
+    int pos = lower_bound(set, value);
 
-    int i = lower_bound(set, value);
+    if(pos < (int)set->size && set->data[pos] == value) return;
 
+    if(set->size == set->capacity)
+    {
+        uint new_capacity = (set->capacity == 0 ? 1 : set->capacity * 2);
+        reserve(set, new_capacity);
+    }
+
+    for(int i = (int)set->size ; i > pos ; --i)
+    {
+        set->data[i] = set->data[i - 1];
+    }
+
+    set->data[pos] = value;
     set->size += 1;
-    resize(set, set->size);
-
-    for(int j = set->size - 1; j > i; --j)
-    {
-        set->buffer[j] = set->buffer[j - 1];
-    }
-
-    set->buffer[i] = value;
 }
 
-bool is_subset(Set * a, Set * b)
+void erase(Set * set, SetType value)
 {
-    for(int i = 0 ; i < a->size ; ++i)
+    if(set->size == 0) return;
+
+    int pos = lower_bound(set, value);
+
+    if(pos >= (int)set->size || set->data[pos] != value) return;
+
+    for(uint i = pos + 1 ; i < set->size ; ++i)
     {
-        if(!find(b, a->buffer[i])) return 0;
+        set->data[i - 1] = set->data[i];
     }
 
-    return 1;
+    set->size -= 1;
 }
 
-Set * set_union(Set * a, Set * b)
+void printSet(Set * set)
 {
-    Set * c = malloc(sizeof(Set));
-    *c = init();
-
-    for(int i = 0 ; i < a->size ; ++i)
+    for(uint i = 0 ; i < set->size ; ++i)
     {
-        insert(c, a->buffer[i]);
-    }
-
-    for(int i = 0 ; i < b->size ; ++i)
-    {
-        insert(c, b->buffer[i]);
-    }
-
-    return c;
-}
-
-Set * set_intersection(Set * a, Set * b)
-{
-    Set * c = malloc(sizeof(Set));
-    *c = init();
-
-    for(int i = 0 ; i < a->size ; ++i)
-    {
-        if(find(b, a->buffer[i]))
-        {
-            insert(c, a->buffer[i]);
-        }
-    }
-
-    return c;
-}
-
-Set * set_difference(Set * a, Set * b)
-{
-    Set * c = malloc(sizeof(Set));
-    *c = init();
-
-    for(int i = 0 ; i < a->size ; ++i)
-    {
-        if(!find(b, a->buffer[i]))
-        {
-            insert(c, a->buffer[i]);
-        }
-    }
-
-    return c;
-}
-
-void print(Set * set)
-{
-    for(int i = 0; i < set->size; ++i)
-    {
-        printf("%d ", set->buffer[i]);
+        printf("%d ", set->data[i]);
     }
 
     printf("\n");
 }
 
+void clear(Set * set)
+{
+    set->size = 0;
+}
+
 void destroy(Set * set)
 {
-    free(set->buffer);
-    
-    set->buffer = NULL;
+    free(set->data);
+
+    set->data = NULL;
     set->size = 0;
+    set->capacity = 0;
 }
