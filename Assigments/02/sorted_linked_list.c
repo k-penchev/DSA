@@ -63,7 +63,6 @@ void swap_nodes(LinkedList * list, int x, int y)
     currX->next = tmp;
 }
 
-
 void swap_values(int * x, int * y)
 {
     int temp = *x;
