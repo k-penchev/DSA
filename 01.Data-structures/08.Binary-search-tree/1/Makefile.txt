@@ -1,0 +1,10 @@
+all: main.out
+
+main.out: main.c bst.o task.o
+	gcc main.c bst.o task.o -o main.out
+
+bst.o: bst.c bst.h
+	gcc -c bst.c -o bst.o
+
+task.o: task.c bst.h
+	gcc -c task.c -o task.o

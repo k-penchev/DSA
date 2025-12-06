@@ -33,18 +33,18 @@ SkipList init()
 void insert(SkipList * list, int value)
 {
     Node * update[MAX_LEVEL];
-    Node * upd = list->head;
+    Node * current = list->head;
 
     for(int lvl = MAX_LEVEL - 1 ; lvl >= 0 ; --lvl)
     {
-        while(upd->pointers[lvl] && upd->pointers[lvl]->value < value)
+        while(current->pointers[lvl] && current->pointers[lvl]->value < value)
         {
-            upd = upd->pointers[lvl];
+            current = current->pointers[lvl];
         }
-        update[lvl] = upd;
+        update[lvl] = current;
     }
 
-    upd = upd->pointers[0];   
+    current = current->pointers[0];   
 
     int lvl = rand() % MAX_LEVEL;
     Node * new_node = create(value, lvl);
@@ -61,45 +61,45 @@ void insert(SkipList * list, int value)
 void erase(SkipList * list, int value)
 {
     Node * update[MAX_LEVEL];
-    Node * upd = list->head;
+    Node * current = list->head;
 
     for(int lvl = MAX_LEVEL - 1 ; lvl >= 0 ; --lvl)
     {
-        while(upd->pointers[lvl] && upd->pointers[lvl]->value < value)
+        while(current->pointers[lvl] && current->pointers[lvl]->value < value)
         {
-            upd = upd->pointers[lvl];
+            current = current->pointers[lvl];
         }
-        update[lvl] = upd;
+        update[lvl] = current;
     }
 
-    upd = upd->pointers[0];
+    current = current->pointers[0];
 
-    for(int i = 0 ; i < upd->level ; ++i)
+    for(int i = 0 ; i < current->level ; ++i)
     {
-        if(update[i]->pointers[i] == upd)
+        if(update[i]->pointers[i] == current)
         {
-            update[i]->pointers[i] = upd->pointers[i];
+            update[i]->pointers[i] = current->pointers[i];
         }
     }
 
-    free(upd);
+    free(current);
     list->size--;
 }
 
 bool search(SkipList * list, int value)
 {
-    Node * upd = list->head;
+    Node * current = list->head;
 
     for(int lvl = MAX_LEVEL - 1 ; lvl >= 0 ; --lvl)
     {
-        while(upd->pointers[lvl] && upd->pointers[lvl]->value < value)
+        while(current->pointers[lvl] && current->pointers[lvl]->value < value)
         {
-            upd = upd->pointers[lvl];
+            current = current->pointers[lvl];
         }
     }
 
-    upd = upd->pointers[0];
-    return upd && upd->value == value;
+    current = current->pointers[0];
+    return current && current->value == value;
 }
 
 void print(SkipList * list)
