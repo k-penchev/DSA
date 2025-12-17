@@ -14,14 +14,14 @@ Heap init()
     return heap;
 }
 
-static void swap(HeapType * a, HeapType * b)
+static void swap(HeapType *a, HeapType *b)
 {
     HeapType tmp = *a;
     *a = *b;
     *b = tmp;
 }
 
-static void reserve(Heap * heap, uint new_capacity)
+static void reserve(Heap *heap, uint new_capacity)
 {
     if(new_capacity == 0)
     {
@@ -32,7 +32,7 @@ static void reserve(Heap * heap, uint new_capacity)
         return;
     }
 
-    HeapType * tmp = realloc(heap->buffer, sizeof(HeapType) * new_capacity);
+    HeapType *tmp = realloc(heap->buffer, sizeof(HeapType) * new_capacity);
     assert(tmp != NULL);
 
     heap->buffer = tmp;
@@ -44,20 +44,20 @@ static void reserve(Heap * heap, uint new_capacity)
     }
 }
 
-static void sift_up(Heap * heap, uint index)
+static void sift_up(Heap *heap, uint index)
 {
     while(index > 0)
     {
         uint parent = (index - 1) / 2;
 
-        if(heap->buffer[parent] <= heap->buffer[index]) break;
+        if(heap->buffer[parent].key <= heap->buffer[index].key) break;
 
         swap(&heap->buffer[parent], &heap->buffer[index]);
         index = parent;
     }
 }
 
-static void sift_down(Heap * heap, uint index)
+static void sift_down(Heap *heap, uint index)
 {
     while(1)
     {
@@ -65,12 +65,12 @@ static void sift_down(Heap * heap, uint index)
         uint right = 2 * index + 2;
         uint smallest = index;
 
-        if(left < heap->size && heap->buffer[left] < heap->buffer[smallest])
+        if(left < heap->size && heap->buffer[left].key < heap->buffer[smallest].key)
         {
             smallest = left;
         }
 
-        if(right < heap->size && heap->buffer[right] < heap->buffer[smallest])
+        if(right < heap->size && heap->buffer[right].key < heap->buffer[smallest].key)
         {
             smallest = right;
         }
@@ -82,7 +82,7 @@ static void sift_down(Heap * heap, uint index)
     }
 }
 
-void push(Heap * heap, HeapType value)
+void push(Heap *heap, HeapType value)
 {
     if(heap->size == heap->capacity)
     {
@@ -96,7 +96,7 @@ void push(Heap * heap, HeapType value)
     sift_up(heap, heap->size - 1);
 }
 
-HeapType pop(Heap * heap)
+HeapType pop(Heap *heap)
 {
     assert(heap->size > 0);
 
@@ -113,32 +113,31 @@ HeapType pop(Heap * heap)
     return result;
 }
 
-HeapType top(Heap * heap)
+HeapType top(Heap *heap)
 {
     assert(heap->size > 0);
 
     return heap->buffer[0];
 }
 
-int size(Heap * heap)
+int size(Heap *heap)
 {
-    return heap->size;
+    return (int)heap->size;
 }
 
-int empty(Heap * heap)
+int empty(Heap *heap)
 {
     return (heap->size == 0);
 }
 
-void clear(Heap * heap)
+void clear(Heap *heap)
 {
     heap->size = 0;
 }
 
-void destroy(Heap * heap)
+void destroyHeap(Heap *heap)
 {
     free(heap->buffer);
-
     heap->buffer = NULL;
     heap->size = 0;
     heap->capacity = 0;

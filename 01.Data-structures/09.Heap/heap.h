@@ -19,6 +19,7 @@ void push(Heap * heap, HeapType value);
 HeapType pop(Heap * heap);
 HeapType top(Heap * heap);
 
+int size(Heap * heap);
 int empty(Heap * heap);
 
 void clear(Heap * heap);
