@@ -137,6 +137,17 @@ Node * search(Node * root, int v)
     }
 }
 
+Node * flatten(Node * root)
+{
+    if(root == NULL)
+    {
+        return NULL;
+    }
+
+    flatten(root->left);
+    flatten(root->right);
+}
+
 void destroyTree(Node * root)
 {
     if(root == NULL)
