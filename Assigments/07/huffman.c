@@ -4,6 +4,9 @@
 #include <assert.h>
 #include <stdio.h>
 
+int bufferSize = 0;
+Code buffer[MAXN];
+
 BinaryNode *createNode(int f, char s)
 {
     BinaryNode *newNode = malloc(sizeof(BinaryNode));
@@ -76,6 +79,21 @@ BinaryNode * buildHuffmanTree(char string[], int string_size)
     destroyHeap(&pq);
 
     return root;
+}
+
+void dfs(BinaryNode * root, char curr)
+{
+    if(root == NULL)
+    {
+        return;
+    }
+
+    Code c = {root->symbol, curr};
+    buffer[bufferSize++] = c;
+
+    dfs(root->left, curr << 1);
+    printf("%c : %d\n", root->symbol, curr);
+    dfs(root->right, (curr << 1) | 1);
 }
 
 void destroyTree(BinaryNode * root)
