@@ -28,7 +28,7 @@ Graph * createGraph(int nodes)
     return graph;
 }
 
-void addEdge(Graph * graph, int u, int v)
+void addDirectedEdge(Graph * graph, int u, int v)
 {
     Node * node = createNode(v);
     

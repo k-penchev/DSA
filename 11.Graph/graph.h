@@ -22,7 +22,7 @@ typedef struct Graph Graph;
 Node * createNode(int dest);
 Graph * createGraph(int nodes);
 
-void addEdge(Graph * graph, int u, int v);
+void addDirectedEdge(Graph * graph, int u, int v);
 void pushNodeToList(Node * head, Node * node);
 
 void printGraph(Graph * graph);
