@@ -1,31 +1,25 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <stdbool.h>
 
-struct Node
+typedef struct Node
 {
     int dest;
     int weight;
     struct Node * next;
-};
+} Node;
 
-struct Graph
+typedef struct Graph
 {
     int nodes;
-    struct Node ** array;
-};
+    Node ** array;
+} Graph;
 
-typedef struct Node Node;
-typedef struct Graph Graph;
-
-Node * createNode(int dest, int weight);
 Graph * createGraph(int nodes);
+void addEdge(Graph * graph, int src, int dest, int weight);
 
-void addDirectedEdge(Graph * graph, int u, int v, int w);
-void pushNodeToList(Node * head, Node * node);
-
-void printGraph(Graph * graph);
+int * dijkstra(Graph * graph, int start, int target, int * pathSize);
+int * astar(Graph * graph, int start, int target, int * h, int * pathSize);
 
 #endif
